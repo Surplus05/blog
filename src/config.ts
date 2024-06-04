@@ -1,7 +1,7 @@
 import type { Site, SocialObjects } from "./types";
 
 export const SITE: Site = {
-  website: "https://astro-paper.pages.dev/", // replace this with your deployed domain
+  website: "https://surplus-dev.com/", // replace this with your deployed domain
   author: "Surplus",
   desc: "Surplus's Blog.",
   title: "Surplus.Dev",
@@ -13,7 +13,7 @@ export const SITE: Site = {
 
 export const LOCALE = {
   lang: "kr", // html lang code. Set this empty and default will be "en"
-  langTag: ["kr-KR"], // BCP 47 Language Tags. Set this empty [] to use the environment default
+  langTag: ["ko-KR"], // BCP 47 Language Tags. Set this empty [] to use the environment default
 } as const;
 
 export const LOGO_IMAGE = {
