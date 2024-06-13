@@ -33,3 +33,7 @@ pnpm-debug.log*
 !.yarn/sdks
 !.yarn/versions
 .pnp.*
+
+# lockfile
+package-lock.json
+yarn.lock

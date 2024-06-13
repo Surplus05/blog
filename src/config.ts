@@ -5,9 +5,9 @@ export const SITE: Site = {
   author: "Surplus",
   desc: "St.kim Blog",
   title: "Surplus.Dev",
-  ogImage: "astropaper-og.jpg",
+  ogImage: "og.png",
   lightAndDarkMode: true,
-  postPerPage: 6,
+  postPerPage: 8,
   scheduledPostMargin: 15 * 60 * 1000, // 15 minutes
 };
 

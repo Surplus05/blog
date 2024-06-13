@@ -2,6 +2,7 @@
   "name": "surplus-blog",
   "version": "1.0.0",
   "private": false,
+  "license": "MIT",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -18,7 +19,7 @@
   "dependencies": {
     "@astrojs/check": "^0.4.1",
     "@resvg/resvg-js": "^2.6.0",
-    "astro": "^4.2.1",
+    "astro": "^4.10.0",
     "fuse.js": "^7.0.0",
     "github-slugger": "^2.0.0",
     "remark-collapse": "^0.1.2",
