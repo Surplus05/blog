@@ -4,7 +4,7 @@ pubDatetime: 2024-06-14T17:25:53Z
 title: 테이블 성능 최적화
 slug: performance-optimization
 featured: false
-draft: false
+draft: true
 tags:
   - React
 description: 여러 기법을 통해 성능 최적화를 해 보자.
