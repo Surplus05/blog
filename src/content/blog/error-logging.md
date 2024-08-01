@@ -68,13 +68,6 @@ AWS Lambda 로의 전송은 그냥 평범한 REST API 처럼 사용하면 된다
 
 위와 같은 형태가 될 것이다.
 
-```ts
-fetch("https://api.endpoint.slack/", {
-  method: "POST",
-  body: JSON.stringify(ErrorObject),
-});
-```
-
 에러를 감지해 전송하는 레퍼런스를 찾아보니 주로 Sentry를 사용하는 예제가 많았으나, 유로라고 한다.
 
 직접 보내보자.
@@ -160,7 +153,35 @@ async 함수는 Promise 를 반환하는데, 이에 대한 에러 처리는 Prom
 
 어디든지 예외가 발생할 시 Promise가 rejected 되고, Promise.catch에서 처리가 가능하기 때문이다.
 
-- 이벤트 핸들러 오류 커버하기
+## Axios의 interceptors 활용하기
+
+위 방식은 fetch하는 곳 마다 catch를 통해 지정해 주어야 하기 때문에 번거롭다.
+
+axios의 interceptors를 활용해 보자.
+
+```ts
+axiosInstance.interceptors.request.use(
+  (config) => {
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+axiosInstance.interceptors.response.use(
+  (response) => {
+    checkPropertyList(response.data, propertyList);
+    return response;
+  },
+  (error) => {
+    logErrorToMyService(error);
+    return Promise.reject(error);
+  }
+);
+```
+
+## 이벤트 핸들러 오류 커버하기
 
 ```ts
 async function wrapper(
@@ -195,20 +216,13 @@ const handleClick = async (event) => {
 만약 event를 받지 않아도 된다면 다음과 같이 지정해 주었다.
 
 ```tsx
-<<<<<<< HEAD
 <button onClick={wrapper(handleClick)}>클릭</button>
 ```
 
-# Wrapper는 여러 컴포넌트에서 사용할 수 있도록 훅을 만들어 제공 해 보자.
-
-<button onClick={wrapper(handleClick, event)}>클릭</button>
-
-````
-
-Wrapper는 여러 컴포넌트에서 사용할 수 있도록 훅을 만들어 제공하자.
->>>>>>> f32e0cfd7344257e748e81742ccae0d3f28eae39
+## 훅을 만들어 제공 해 보자.
 
 ```ts
+
 const useWrapper = () => {
   const wrapper = (target: Function, ...args: any[]) => {
     const wrappedFunction = async () => {
@@ -224,7 +238,7 @@ const useWrapper = () => {
 
   return wrapper;
 };
-````
+```
 
 이런 형태가 될 것이다.
 
@@ -313,3 +327,7 @@ const useWrapper = () => {
 ```
 
 최종 완성된 훅의 형태.
+
+# 결론
+* Response Data Validation은 Axios의 Interceptors를 활용했다.
+* 기타 오류 감지가 필요하다면 훅으로 한번 래핑 해 주었다. 
