@@ -1,6 +1,6 @@
 ---
 author: Surplus
-pubDatetime: 2024-06-14T17:25:53Z
+pubDatetime: 2024-06-15T17:25:53Z
 title: 테이블 성능 최적화
 slug: performance-optimization
 featured: false
@@ -222,3 +222,29 @@ Timer 딜레이는 375에서 250으로 낮췄다.
 ![06](../../assets/images/performance-optimization/image-6.png)
 
 성능이 많이 개선되었다.
+
+- 추가 개선
+
+Socket에 Throttle 방식으로 State를 갱신했었는데, 방식을 변경하자.
+
+State대신 객체에다 저장하고, 지정된 시간마다 해당 객체의 데이터를 읽어와 테이블에 뿌려주도록 변경하자.
+
+```ts
+const interval = setInterval(() => {
+  setCoinDataMap(new Map(coinData));
+}, DELAY);
+
+return () => {
+  clearInterval(interval);
+};
+```
+
+위 코드처럼 useEffect내부에 Interval을 설정해 주어서, 주기적으로 받아오도록 변경했다.
+
+![07](../../assets/images/performance-optimization/image-7.png)
+
+성능이 많이 개선되었다.
+
+![08](../../assets/images/performance-optimization/image-8.png)
+
+최종 사이트 레이아웃은 다음과 같다.
