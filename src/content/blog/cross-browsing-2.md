@@ -37,6 +37,14 @@ dynamic viewport로 높이가 설정되어 있는데, 키보드의 높이만큼 
 
 html 높이는 분명 키보드를 제외한 높이인데, 아래쪽에 html외부의 가상 공간이 생기는 경우가 가끔 생겼다.
 
+input이 키보드가 활성화 됐을때 가려지는 위치에 존재하면 그만큼 화면을 위로 올리고 스크롤이 생기면서, 아래를 키보드가 채우게 된다.
+
+근데, 화면을 위로 올릴 때, html document의 높이가 줄어들어 스크롤이 생기는게 아니라 html document 외부의 별도의 공간이 생겨 html과는 별도의 가상 공간을 생성해 스크롤을 만들게 된다.
+
+브라우저가 모바일에서 키보드를 구현하는 방식인 것 같다.
+
+css를 아무리 건들여 봤자 동작하지 않았던 이유이다.
+
 높이를 건들진 말고, 고정 원하는 구성요소들을 스크롤이 내려가도 화면에 고정시키자.
 
 ![04](../../assets/images/cross-browsing-2/image-4.png)
@@ -81,7 +89,16 @@ user event로 인한 재생은 가능한데, 준비 투표를 하는 경우 재�
 
 ### 입력 버퍼 문제
 
-해결 중..
+```ts
+if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+  setTimeout(() => {
+    dummyRef.current?.focus();
+    inputRef.current?.focus();
+  }, 0);
+}
+```
+
+보이지않는 Dummy Input을 만들고, 메시지 전송시 포커스를 잠깐 옮겼다가 다시 복구하는 형태로 buffer를 초기화 해 주었다.
 
 ## 삼성 브라우저
 
